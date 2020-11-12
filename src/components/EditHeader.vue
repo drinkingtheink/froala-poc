@@ -33,7 +33,8 @@ export default {
       heightVal: 50,
       backgroundColor: '#333',
       imgSrc: '/assets/okta-logo.png',
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      headerMarkup: null
     }
   },
   computed: {
@@ -54,9 +55,19 @@ export default {
 
       return newModel;
     },
-    headerMarkup() {
-      return this.$refs.headerOutput.outerHTML;
+  },
+  methods: {
+    setHeaderMarkup() {
+      this.headerMarkup = this.$refs.headerOutput.outerHTML;
     }
+  },
+  watch: {
+    heightVal: function () {
+      this.setHeaderMarkup();
+    },
+  },
+  mounted() {
+    this.setHeaderMarkup();
   }
 };
 
