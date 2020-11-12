@@ -12,19 +12,7 @@ export default {
   name: 'AppStage',
   components: {
     EditHeader
-  },
-  data () {
-      return {
-        config: {
-          events: {
-            'froalaEditor.initialized': function () {
-              console.log('initialized')
-            }
-          }
-        },
-        model: 'Edit Your Content Here!'
-      }
-    }  
+  }
 };
 </script>
 
