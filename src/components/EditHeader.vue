@@ -160,7 +160,7 @@ export default {
   }
 
   #heightVal {
-    width: 2.5rem;
+    width: 3.5rem;
   }
 
   #dropShadow {
