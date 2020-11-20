@@ -1,15 +1,21 @@
 <template>
   <section>
     <h2>Edit Your Content</h2>
-    <EditHeader />
+    <EditHeader :colorOptions="colorOptions" />
   </section>
 </template>
 
 <script>
 import EditHeader from './EditHeader.vue'
+import colors from '../fixtures/colors';
 
 export default {
   name: 'AppStage',
+  data() {
+    return {
+      colorOptions: colors
+    }
+  },
   components: {
     EditHeader
   }
