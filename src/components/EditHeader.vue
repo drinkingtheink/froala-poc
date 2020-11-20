@@ -3,8 +3,17 @@
     <h3>Edit Your Header</h3>
 
     <section class="section-toolbar">
-      <label for="heightVal">Height:</label>
-      <input id="heightVal" type="number" v-model="heightVal" /><span>px</span>
+      <div class="set-section set-height">
+        <label for="heightVal">Height:</label>
+        <input id="heightVal" type="number" v-model="heightVal" /><span>px</span>
+      </div>
+
+      <div class="set-section set-shadow">
+        <button class="radio" v-on:click="toggleShadow">
+          <span v-if="showShadow">Turn Off Shadow</span>
+          <span v-else>Show Shadow</span>
+        </button>
+      </div>
     </section>
 
     <section class="header-output-wrapper">
@@ -14,7 +23,6 @@
         class="header-output"
       >
         <img class="header-logo" alt="Your logo" src="../assets/okta-logo.png">
-        <!--<froala :tag="img" v-model="imgModel"></froala>-->
       </header>
     </section>
 
@@ -31,17 +39,21 @@ export default {
   data () {
     return {
       heightVal: 50,
+      heightFloor: 40,
       backgroundColor: '#333',
       imgSrc: '/assets/okta-logo.png',
       publicPath: process.env.BASE_URL,
-      headerMarkup: null
+      headerMarkup: null,
+      showShadow: true
     }
   },
   computed: {
     outputStyles() {
       let styleBlock = {
         height: `${this.heightVal}px`,
-        backgroundColor: this.backgroundColor
+        backgroundColor: this.backgroundColor,
+        boxShadow: this.dropShadowStyles
+
       }
       return styleBlock;
     },
@@ -55,16 +67,31 @@ export default {
 
       return newModel;
     },
+    dropShadowStyles() {
+      let shadowStyles = `1px 5px 10px 1px rgba(0,0,0,0.37)`
+      return this.showShadow ? shadowStyles : 'none';
+    }
   },
   methods: {
     setHeaderMarkup() {
       this.headerMarkup = this.$refs.headerOutput.outerHTML;
+    },
+    toggleShadow() {
+      this.showShadow = !this.showShadow;
+      this.setHeaderMarkup();
     }
   },
   watch: {
     heightVal: function () {
+      if (this.heightVal < this.heightFloor) {
+        this.heightVal = this.heightFloor;
+      }
+
       this.setHeaderMarkup();
     },
+    outputStyles: function () {
+      this.setHeaderMarkup();
+    }
   },
   mounted() {
     this.setHeaderMarkup();
