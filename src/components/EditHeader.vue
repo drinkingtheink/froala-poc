@@ -4,6 +4,17 @@
 
     <section class="section-toolbar">
       <div class="set-section set-height">
+        <label for="heightVal">Logo:</label>
+        <button 
+          id="logoChange" 
+          v-on:click="openImageDiag"
+          v-on:submit="openImageDiag"
+        >
+          Upload Logo
+        </button>
+      </div>
+
+      <div class="set-section set-height">
         <label for="heightVal">Height:</label>
         <input 
           id="heightVal" 
@@ -100,6 +111,9 @@ export default {
     },
     announceHeaderMarkup() {
       this.$emit('headerMarkupChanged', this.$refs.headerOutput.outerHTML);
+    },
+    openImageDiag() {
+      window.confirm("Please upload your new logo image.")
     }
   },
   watch: {

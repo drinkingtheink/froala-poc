@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Edit Body Content</h3>
+    <!--<h3>Edit Body Content</h3>-->
   </div>
 </template>
 
