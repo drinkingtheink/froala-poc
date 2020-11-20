@@ -1,23 +1,43 @@
 <template>
-  <section>
-    <h2>Edit Your Content</h2>
-    <EditHeader :colorOptions="colorOptions" />
-  </section>
+  <div>
+    <section id="compose">
+      <h2>Edit Your Content</h2>
+      <EditHeader 
+        :colorOptions="colorOptions"
+        v-on:headerMarkupChanged="updateHeaderMarkup"
+      />
+      <EditBody />
+    </section>
+
+    <section id="display">
+      <MarkupDisplay :headerMarkup="headerMarkup" />
+    </section>
+  </div>
 </template>
 
 <script>
 import EditHeader from './EditHeader.vue'
+import EditBody from './EditBody.vue'
+import MarkupDisplay from './MarkupDisplay.vue'
 import colors from '../fixtures/colors';
 
 export default {
   name: 'AppStage',
   data() {
     return {
-      colorOptions: colors
+      colorOptions: colors,
+      headerMarkup: null
     }
   },
   components: {
-    EditHeader
+    EditHeader,
+    EditBody,
+    MarkupDisplay
+  },
+  methods: {
+    updateHeaderMarkup(markup) {
+      this.headerMarkup = markup;
+    }
   }
 };
 </script>

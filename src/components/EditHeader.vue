@@ -32,7 +32,7 @@
         <section class="color-options bg-color-options">
           <button
             class="single-color-option"
-            v-bind:class="[backgroundColor === color.val ? 'active' : '']"
+            v-bind:class="[selectedBackgroundColor === color.val ? 'active' : '']"
             v-for="color in colorOptions"
             v-on:click="setBgColor(color.val)"
             v-on:submit="setBgColor(color.val)"
@@ -48,6 +48,7 @@
         ref="headerOutput" 
         v-bind:style="outputStyles" 
         class="header-output"
+        id="header-output"
       >
         <img class="header-logo" alt="Your logo" src="../assets/okta-logo.png">
       </header>
@@ -56,6 +57,8 @@
     <section class="markup-output">
       <pre><code>{{headerMarkup}}</code></pre>
     </section>
+
+    <button v-on:click="announceHeaderMarkup">Generate Header</button>
   </section>
 </template>
 
@@ -67,7 +70,7 @@ export default {
     return {
       heightVal: 50,
       heightFloor: 40,
-      backgroundColor: '#333333',
+      selectedBackgroundColor: '#333333',
       imgSrc: '/assets/okta-logo.png',
       publicPath: process.env.BASE_URL,
       headerMarkup: null,
@@ -78,9 +81,8 @@ export default {
     outputStyles() {
       let styleBlock = {
         height: `${this.heightVal}px`,
-        backgroundColor: `${this.backgroundColor}`,
+        backgroundColor: `${this.selectedBackgroundColor}`,
         boxShadow: this.dropShadowStyles
-
       }
       return styleBlock;
     },
@@ -90,15 +92,14 @@ export default {
     }
   },
   methods: {
-    setHeaderMarkup() {
-      this.headerMarkup = this.$refs.headerOutput.outerHTML;
-    },
     toggleShadow() {
       this.showShadow = !this.showShadow;
-      this.setHeaderMarkup();
     },
     setBgColor(color) {
-      this.backgroundColor = color;
+      this.selectedBackgroundColor = color;
+    },
+    announceHeaderMarkup() {
+      this.$emit('headerMarkupChanged', this.$refs.headerOutput.outerHTML);
     }
   },
   watch: {
@@ -106,15 +107,7 @@ export default {
       if (this.heightVal < this.heightFloor) {
         this.heightVal = this.heightFloor;
       }
-
-      this.setHeaderMarkup();
-    },
-    outputStyles: function () {
-      this.setHeaderMarkup();
     }
-  },
-  mounted() {
-    this.setHeaderMarkup();
   }
 };
 
@@ -172,6 +165,7 @@ export default {
 
   #dropShadow {
     width: 10rem;
+    padding: .25rem;
   }
 
   .color-options {
